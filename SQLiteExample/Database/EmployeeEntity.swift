@@ -42,13 +42,40 @@ class EmployeeEntity {
         }
     }
     
+    func insert(name: String, hireDate: Date, identifier: String, isManager: Bool, title: String?, departmentId: Int64?) -> Int64? {
+        do {
+            let insert = tblEmployee.insert(self.name <- name,
+                                            self.hireDate <- hireDate,
+                                            self.identifier <- identifier,
+                                            self.isManager <- isManager,
+                                            self.title <- title ?? "",
+                                            self.departmentId <- departmentId ?? 0)
+            let insertedId = try DataBase.shared.connection!.run(insert)
+            return insertedId
+        } catch {
+            let nserror = error as NSError
+            print("Cannot insert new Employee. Error is: \(nserror), \(nserror.userInfo)")
+            return nil
+        }
+    }
+    
+    func queryAll() -> AnySequence<Row>? {
+        do {
+            return try DataBase.shared.connection?.prepare(self.tblEmployee)
+        } catch {
+            let nserror = error as NSError
+            print("Cannot query all Employees. Error is: \(nserror), \(nserror.userInfo)")
+            return nil
+        }
+    }
+    
     func toString(employee: Row) {
         print("""
             Employee details. Name: \(employee[self.name]),\
             hireDate: \(employee[self.hireDate]),
             identifier: \(employee[self.identifier]),
             isManager: \(employee[self.isManager]),
-            title: \(employee[self.title]).
+            title: \(employee[self.title]),
             departmentId: \(employee[self.departmentId])
             """)
     }

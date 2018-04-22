@@ -16,7 +16,7 @@ class DataBase {
     private init() {
         let dbPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String?
         do {
-            connection = try Connection("\(String(describing: dbPath))/(databaseFileName)")
+            connection = try Connection("\(dbPath!)/(databaseFileName)")
         } catch {
             connection = nil
             let nserror = error as NSError

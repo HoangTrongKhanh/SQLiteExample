@@ -39,11 +39,33 @@ class DepartmentEntity {
         }
     }
     
+    func insert(name: String, address: String, city: String, zipCode: Int64?) -> Int64? {
+        do {
+            let insert = tblDepartment.insert(self.name <- name, self.address <- address, self.city <- city, self.zipCode <- zipCode ?? 0)
+            let insertedId = try DataBase.shared.connection?.run(insert)
+            return insertedId
+        } catch {
+            let nserror = error as NSError
+            print("Cannot insert new Department. Error: \(nserror), \(nserror.userInfo)")
+            return nil
+        }
+    }
+    
+    func queryAll() -> AnySequence<Row>? {
+        do {
+            return try DataBase.shared.connection?.prepare(self.tblDepartment)
+        } catch {
+            let nserror = error as NSError
+            print("Cannot query all tblDepartment. Error: \(nserror), \(nserror.userInfo)")
+            return nil
+        }
+    }
+    
     func toString(department: Row) {
         print("""
             Department details. Name: \(department[self.name]),\
             address: \(department[self.address]),
-            city: \(department[self.city]),
+            city: \(department[self.city]), 
             zipCode: \(department[self.zipCode])
             """)
     }
