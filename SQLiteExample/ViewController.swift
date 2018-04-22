@@ -58,6 +58,23 @@ class ViewController: UIViewController {
 //            }
 //        }
         
+        print("Before update...")
+        if let departmentQuery = DepartmentEntity.shared.filter() {
+            for eachDepartment in departmentQuery {
+                DepartmentEntity.shared.toString(department: eachDepartment)
+            }
+        }
+        print("Begin update...")
+        if DepartmentEntity.shared.update(id: 1,
+                                          name: nil,
+                                          address: "new address999",
+                                          city: "a new City999",
+                                          zipCode: 9999) {
+            print("Update successful")
+        } else {
+            print("Update unsuccessful")
+        }
+        print("After update...")
         if let departmentQuery = DepartmentEntity.shared.filter() {
             for eachDepartment in departmentQuery {
                 DepartmentEntity.shared.toString(department: eachDepartment)
@@ -70,7 +87,5 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
 }
-
