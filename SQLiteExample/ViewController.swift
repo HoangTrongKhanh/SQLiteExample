@@ -47,14 +47,20 @@ class ViewController: UIViewController {
 //                                                        title: "This is a member",
 //                                                        departmentId: department1Id)
         
-        if let departmentQuery = DepartmentEntity.shared.queryAll() {
+//        if let departmentQuery = DepartmentEntity.shared.queryAll() {
+//            for eachDepartment in departmentQuery {
+//                DepartmentEntity.shared.toString(department: eachDepartment)
+//            }
+//        }
+//        if let employeeQuery = EmployeeEntity.shared.queryAll() {
+//            for eachEmployee in employeeQuery {
+//                EmployeeEntity.shared.toString(employee: eachEmployee)
+//            }
+//        }
+        
+        if let departmentQuery = DepartmentEntity.shared.filter() {
             for eachDepartment in departmentQuery {
                 DepartmentEntity.shared.toString(department: eachDepartment)
-            }
-        }
-        if let employeeQuery = EmployeeEntity.shared.queryAll() {
-            for eachEmployee in employeeQuery {
-                EmployeeEntity.shared.toString(employee: eachEmployee)
             }
         }
         

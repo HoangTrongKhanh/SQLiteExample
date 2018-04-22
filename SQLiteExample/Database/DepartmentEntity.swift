@@ -51,6 +51,31 @@ class DepartmentEntity {
         }
     }
     
+    func filter() -> AnySequence<Row>? {
+        do {
+            //SELECT * FROM "tblDepartment" WHERE ("id" = 1)
+            //let filterCondition = (id == 1)
+            
+            //SELECT * FROM "tblDepartment" WHERE ("id" IN (1, 2, 3, 4))
+            //let filterCondition = [1, 2, 3, 4].contains(id)
+            
+            //SELECT * FROM "tblDepartment" WHERE ("name" LIKE '%Department')
+            //let filterCondition = self.name.like("%Department")
+            
+            //SELECT * FROM "tblDepartment" WHERE name.lowercaseString == "sales department" AND id >= 3
+            //let filterCondition = (id >= 3) && (name.lowercaseString == "sales department")
+            
+            //SELECT * FROM "tblDepartment" WHERE ("id" == 3) OR ("id" == 3)
+            let filterCondition = (id == 3) || (id == 4)
+            
+            return try DataBase.shared.connection?.prepare(self.tblDepartment.filter(filterCondition))
+        } catch {
+            let nserror = error as NSError
+            print("Cannot filter in tblDepartment. Error: \(nserror), \(nserror.userInfo)")
+            return nil
+        }
+    }
+    
     func queryAll() -> AnySequence<Row>? {
         do {
             return try DataBase.shared.connection?.prepare(self.tblDepartment)
@@ -63,7 +88,8 @@ class DepartmentEntity {
     
     func toString(department: Row) {
         print("""
-            Department details. Name: \(department[self.name]),\
+            Department details. id = \(department[self.id]),
+            Name: \(department[self.name]),
             address: \(department[self.address]),
             city: \(department[self.city]), 
             zipCode: \(department[self.zipCode])

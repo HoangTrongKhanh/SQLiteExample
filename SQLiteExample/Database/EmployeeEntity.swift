@@ -71,7 +71,7 @@ class EmployeeEntity {
     
     func toString(employee: Row) {
         print("""
-            Employee details. Name: \(employee[self.name]),\
+            Employee details. Name: \(employee[self.name]),
             hireDate: \(employee[self.hireDate]),
             identifier: \(employee[self.identifier]),
             isManager: \(employee[self.isManager]),
